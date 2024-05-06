@@ -1,0 +1,130 @@
+@import '../../styles/_colors.scss';
+@import '../../styles/_variables.scss';
+
+.diods-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 2rem;
+  .diods-box {
+    position: relative;
+    display: grid;
+    grid-template: 100% / repeat(2, 50%);
+    width: 650px;
+    height: 300px;
+    //border: 1px solid black;
+
+    .field-wrapper {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .label {
+        position: absolute;
+        bottom: 100%;
+        background: $bg-neutral-200;
+        padding: 0.5rem 1rem;
+        user-select: none;
+        border-radius: 0.5rem;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+      }
+      .tag {
+        position: absolute;
+        font-size: 1.5rem;
+        font-weight: 500;
+      }
+      .tag-anod {
+        right: 110%;
+        top: 20%;
+      }
+      .tag-katod {
+        left: 110%;
+        top: 20%;
+      }
+      .field {
+
+        display: grid;
+        grid-template: repeat(5, $circle-size) / repeat(5, $circle-size);
+        gap: 1rem;
+        .circle {
+          border-radius: 100%;
+          color: white;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+    }
+
+    .p-field-wrapper {
+      .p-field {
+        .hole-c {
+          z-index: 4;
+          background: black;
+        }
+      }
+    }
+
+    .n-field-wrapper {
+      .n-field {
+        .electron-c {
+          z-index: 5;
+          background: limegreen;
+        }
+      }
+    }
+
+  }
+  .battery {
+    width: 20%;
+    height: 50px;
+    display: grid;
+    grid-template: 100% / 20% auto;
+    border-radius: 0.325rem;
+    overflow: hidden;
+    .plus {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.25rem;
+      background: $bg-neutral-400;
+    }
+    .minus {
+      display: flex;
+      justify-content: right;
+      padding-right: 1rem;
+      align-items: center;
+      font-size: 2.25rem;
+      background: $bg-gray-800;
+      color: white;
+    }
+    div:nth-child(1) {
+      border-right: 1px solid black;
+    }
+  }
+  .buttons-group {
+    display: flex;
+    gap: 1rem;
+    .start-btn {
+      background: $bg-blue-500;
+      color: white;
+      &:hover {
+        background: $bg-blue-600;
+      }
+    }
+    .toggle-btn {
+      border: 1px solid $bg-blue-500;
+      &:hover {
+        background: $bg-blue-200;
+      }
+    }
+    button {
+      transition: background 0.5s ease;
+      border: none;
+      border-radius: 0.25rem;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+    }
+  }
+}
