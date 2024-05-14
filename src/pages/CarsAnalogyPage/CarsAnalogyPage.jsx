@@ -62,14 +62,14 @@ function CarsAnalogyPage(props) {
             onClick={() => {
               setStatus(prev => true)
             }}>
-            Start animation
+            Почати анімацію
           </button>
           <button
             onClick={() => {
               setStatus(prev => false)
               setPos(0)
             }}>
-            Clear animation
+            Очистити анімацію
           </button>
         </div>
       </div>
