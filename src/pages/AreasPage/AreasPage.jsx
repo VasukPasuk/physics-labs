@@ -88,13 +88,19 @@ function AreasPage(props) {
         <div className={`switch-diode-type__btn-container`}>
           <button
             className={`set-krem-diode-button set-type-button`}
-            onClick={() => setDiodeType(prev => false)}
+            onClick={() => {
+              setDiodeType(prev => false)
+              setDirection(false)
+            }}
           >
             Показати кремнієвий діод
           </button>
           <button
             className={`set-germ-diode-button set-type-button`}
-            onClick={() => setDiodeType(prev => true)}
+            onClick={() => {
+              setDiodeType(prev => true)
+              setDirection(false)
+            }}
           >
             Показати германієвий діод
           </button>
