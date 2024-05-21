@@ -24,6 +24,9 @@
       bottom: -19.5%;
       border-right: transparent;
       z-index: -15;
+      border-radius: 0.25rem;
+      transition: opacity 2s ease;
+      opacity: 0;
     }
     .left-frame {
       right: 71%;
@@ -34,6 +37,9 @@
       left: 71%;
       border: 5px solid red;
       border-left:transparent ;
+    }
+    .active-frame {
+      opacity: 1;
     }
     .field-wrapper {
       position: relative;
@@ -161,7 +167,7 @@
   .buttons-group {
     display: flex;
     gap: 1rem;
-    .start-btn {
+    .add-battery-btn {
       background: $bg-blue-500;
       color: white;
       &:hover {

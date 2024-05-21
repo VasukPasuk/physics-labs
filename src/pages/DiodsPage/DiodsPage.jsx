@@ -14,16 +14,16 @@ const expand = {
 }
 
 function DiodsPage(props) {
-  const [batteryState, setBatteryState] = useState(false); // false  + => - ; true - => +
-  const [start, setStart] = useState(false);
+  const [direction, setDirection] = useState(false); // false  + => - ; true - => +
+  const [battery, setBattery] = useState(false);
   const [switched, setSwitched] = useState(false);
   return (
     <section className={`diods-page`}>
       <div className={`diods-box`}>
         <div className="p-field-wrapper field-wrapper">
           <div
-            className={`p-field field ${(start && batteryState) && 'move-left'}`}
-            style={(start && !batteryState) ? {} :disperse}
+            className={`p-field field ${(battery && direction) && 'move-left'}`}
+            style={(battery && !direction) ? {} :disperse}
           >
             {[...Array(25)].map(() => {
               return (
@@ -42,20 +42,20 @@ function DiodsPage(props) {
         </div>
         <div className="n-field-wrapper field-wrapper">
           <div
-            className={`n-field field ${(start && batteryState) && 'move-right'} ${(start && !batteryState) && 'moving'}`}
-            style={(start && !batteryState) ? {} : disperse}
+            className={`n-field field ${(battery && direction) && 'move-right'} ${(battery && !direction) && 'moving'}`}
+            style={(battery && !direction) ? {} : disperse}
           >
             {[...Array(25)].map(() => {
               return (
-                <div className={`circle electron-c ${(!start && !switched) && 'calm-state'}`}>
+                <div className={`circle electron-c ${(!battery && !switched) && 'calm-state'}`}>
                 
                 </div>
               )
             })}
           </div>
           <div
-            className={`n-field field ${(start && batteryState) && 'move-right'} black-circles`}
-            style={(start && !batteryState) ? {} :disperse}
+            className={`n-field field ${(battery && direction) && 'move-right'} black-circles`}
+            style={(battery && !direction) ? {} :disperse}
           >
             {[...Array(25)].map(() => {
               return (
@@ -72,15 +72,15 @@ function DiodsPage(props) {
             КАТОД
           </div>
         </div>
-        <div className="left-frame frame"
-             style={start ? {} : invisible}
+        <div
+          className={`left-frame frame ${battery && 'active-frame'}`}
         />
-        <div className="right-frame frame"
-             style={start ? {} : invisible}
+        <div
+          className={`right-frame frame ${battery && 'active-frame'}`}
         />
       </div>
-      <div className={`battery ${(batteryState && start) && "active-rotation"}`}
-           style={start ? {} : invisible}
+      <div className={`battery ${(direction && battery) && "active-rotation"}`}
+           style={battery ? {} : invisible}
       >
         <div className={`plus`}>
           +
@@ -91,9 +91,9 @@ function DiodsPage(props) {
       </div>
       <div className={`buttons-group`}>
         <button
-          className={`start-btn`}
+          className={`add-battery-btn`}
           onClick={() => {
-            setStart(true);
+            setBattery(true);
           }}
         >
           Додати батарейку
@@ -101,7 +101,7 @@ function DiodsPage(props) {
         <button
           className={`toggle-btn`}
           onClick={() => {
-            setBatteryState(prev => !prev);
+            setDirection(prev => !prev);
             setSwitched(prev => true)
           }}
         >
@@ -110,7 +110,7 @@ function DiodsPage(props) {
         <button
           className={`end-btn`}
           onClick={() => {
-            setStart(false);
+            setBattery(false);
           }}
         >
           Вилучити батарейку

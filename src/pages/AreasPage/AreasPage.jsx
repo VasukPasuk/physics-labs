@@ -28,7 +28,7 @@ function AreasPage(props) {
             
             </div>
             <div className="curve-left">
-              <svg viewBox={`${diodeType ? 70 : 60} ${diodeType ? 83 : 91} 351 218`} fill="none"
+              <svg viewBox={`${diodeType ? 70 : 10} ${diodeType ? 83 : 105} 351 218`} fill="none"
                    xmlns="http://www.w3.org/2000/svg">
                 <path d="M0.5 227C64.6667 226.333 201 220.1 233 200.5C273 176 300 119.5 300 -0.5" strokeWidth={3}
                       stroke="black"/>
@@ -49,7 +49,7 @@ function AreasPage(props) {
             <div className={`axis-label axis-label__centre-left`}>
               0
             </div>
-            <div className={`axis-label axis-label__centre-right`} style={{left: diodeType ? "57.5%" : "60%"}}>
+            <div className={`axis-label axis-label__centre-right`} style={{left: diodeType ? "57.5%" : "71%"}}>
               {diodeType ? "0,3" : "0,7"}
             </div>
           </div>

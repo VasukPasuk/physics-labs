@@ -11,10 +11,10 @@ const links = [
     path: 'areas',
     text: 'Анімація зон валентної, провідної та забороненої'
   },
-  {
-    path: 'chart',
-    text: 'Об\'ємний графік'
-  },
+  // {
+  //   path: 'chart',
+  //   text: 'Об\'ємний графік'
+  // },
   {
     path: 'diods',
     text: 'Струм в діодах'
@@ -34,7 +34,6 @@ function Header(props) {
             <NavLink className={isActive} to={'/' + path }> {text} </NavLink>
           )
         })}
-
       </nav>
     </header>
   );
