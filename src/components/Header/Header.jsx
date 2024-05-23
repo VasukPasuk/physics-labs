@@ -18,6 +18,10 @@ const links = [
   {
     path: 'diods',
     text: 'Струм в діодах'
+  },
+  {
+    path: 'volume-charts',
+    text: "Об'ємні графіки"
   }
 ];
 

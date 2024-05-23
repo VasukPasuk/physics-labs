@@ -1,5 +1,5 @@
 import {createBrowserRouter} from "react-router-dom";
-import {AreasPage, ChartPage, CarsAnalogyPage, DiodsPage} from '../pages/pages';
+import {AreasPage, ChartPage, CarsAnalogyPage, DiodsPage, VolumeChartsPage} from '../pages/pages';
 import Layout from "../Layout";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 
@@ -24,6 +24,10 @@ const router = createBrowserRouter([
       {
         path: '/diods',
         element: <DiodsPage/>
+      },
+      {
+        path: '/volume-charts',
+        element: <VolumeChartsPage/>
       }
     ]
   },
