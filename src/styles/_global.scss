@@ -9,9 +9,23 @@
   text-decoration: none;
   font-family: "Roboto", sans-serif;
 }
+button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.325rem 2rem;
+  outline: none;
+  border: none;
+  border-radius: 0.25rem;
+  font: inherit;
+  color: white;
+  transition: 0.5s ease background;
+  cursor: pointer;
+}
 body {
   width: 100vw;
   min-height: 100vh;
+  overflow: hidden;
   #root {
     width: 100vw;
     min-height: 100vh;

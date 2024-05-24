@@ -3,8 +3,7 @@
 
 $cube-width: 150px;
 $cube-height: 150px;
-$cube-depth: 250px;
-
+$cube-depth: 150px;
 
 #volume-charts-page {
   display: flex;
@@ -13,26 +12,30 @@ $cube-depth: 250px;
   align-items: center;
   padding: 0 2rem;
   gap: 2rem;
+
   .first-chart-container {
     position: relative;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 4px 5px 1px rgba(0,0,0,0.25);
+    box-shadow: 0 4px 5px 1px rgba(0, 0, 0, 0.25);
+
     .cube-container {
       position: relative;
       width: 450px;
       height: 400px;
       display: flex;
       flex-direction: column;
+
       .cube {
         width: $cube-width;
         height: $cube-height;
         position: relative;
         right: -32%;
-        top: 10%;
+        top: 20%;
         transform-style: preserve-3d;
         transition: 2s ease all;
         user-select: none;
+
         &__face {
           transition: 2s ease all;
           position: absolute;
@@ -45,47 +48,51 @@ $cube-depth: 250px;
           font-size: 20px;
           background-color: rgba(255, 255, 255, 0.8);
           left: 20%;
-          top: 40%;
+          top: 50%;
         }
 
-        &__face--front {
-          transform: translateZ($cube-depth / 2);
-        }
-
-        &__face--back {
-          transform: rotateY(180deg) translateZ($cube-depth / 2);
-        }
-
-        &__face--left {
-          transform: rotateY(-90deg) translateZ($cube-depth / 2);
-          width: $cube-depth;
-          height: $cube-height;
-          transform-origin: 50% 50%;
-        }
-
-        &__face--right {
-          transform: rotateY(90deg) translateZ($cube-width - $cube-depth / 2);
-          width: $cube-depth;
-          height: $cube-height;
-          transform-origin: 50% 50%;
-        }
-
-        &__face--top {
-          transform: rotateX(90deg) translateZ($cube-depth / 2);
-          width: $cube-width;
-          height: $cube-depth;
-        }
+        //&__face--front {
+        //  transform: translateZ($cube-depth / 2);
+        //}
+        //
+        //&__face--back {
+        //  transform: rotateY(180deg) translateZ($cube-depth / 2);
+        //}
+        //
+        //&__face--left {
+        //  transform: rotateY(-90deg) translateZ($cube-depth / 2);
+        //  width: $cube-depth;
+        //  height: $cube-height;
+        //  transform-origin: 50% 50%;
+        //}
+        //
+        //&__face--right {
+        //  transform: rotateY(90deg) translateZ($cube-width - $cube-depth / 2);
+        //  width: $cube-depth;
+        //  height: $cube-height;
+        //  transform-origin: 50% 50%;
+        //}
+        //
+        //&__face--top {
+        //  transform: rotateX(90deg) translateZ($cube-depth / 2);
+        //  width: $cube-width;
+        //  height: $cube-depth;
+        //}
 
         &__face--bottom {
-          transform: rotateX(-90deg) translateZ($cube-height - $cube-depth / 2);
+          display: none;
+          position: absolute;
+          transform: rotateX(-90deg) translateZ($cube-height - $cube-depth / 0.5);
           width: $cube-width;
           height: $cube-depth;
         }
+
         &__axis {
           position: absolute;
           border: 2px solid #000;
           width: 150px;
         }
+
         &__face--x {
           transform: rotateY(180deg) translateZ(150px) translateY(0);
           width: 200px;
@@ -93,27 +100,32 @@ $cube-depth: 250px;
           border-right: none;
           border-top: none;
           border-left: none;
+
           .axis-label-x {
             position: absolute;
             bottom: 0;
           }
         }
+
         &__face--y {
           transform: rotateY(-90deg) translateZ(150px);
           width: 300px;
           height: 250px;
           border-right: none;
           border-top: none;
+
           .axis-label-z {
             position: absolute;
             bottom: 0;
             right: 0;
           }
+
           .axis-label-y {
             position: absolute;
             left: 2.5%;
           }
         }
+
         .axis-label {
           transform: rotateY(-180deg);
         }
@@ -126,42 +138,40 @@ $cube-depth: 250px;
       align-items: center;
       padding: 0.25rem 1rem;
       gap: 1rem;
+
       button {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 0.325rem 2rem;
-        outline: none;
-        border: none;
-        border-radius: 0.25rem;
-        font: inherit;
-        color: white;
-        transition: 0.5s ease background;
         cursor: pointer;
         &:nth-child(1) {
           padding: 0.325rem 1.5rem;
           background: $bg-blue-700;
+
           &:hover {
             background: $bg-blue-800;
           }
         }
+
         &:nth-child(2) {
           background: $bg-blue-500;
+
           &:hover {
             background: $bg-blue-600;
           }
+
           font-weight: 400;
         }
+
         &:nth-child(3) {
           padding: 0.325rem 1.5rem;
           background: #000;
           background: $bg-blue-700;
+
           &:hover {
             background: $bg-blue-800;
           }
         }
       }
     }
+
     .current-angle-label {
       position: absolute;
       top: -2.5%;
@@ -169,6 +179,39 @@ $cube-depth: 250px;
     }
   }
 
-}
+  .second-chart-container {
+    position: relative;
+    width: 450px;
+    height: 435px;
+    box-shadow: 0 4px 5px 1px rgba(0, 0, 0, 0.25);
+  }
 
+  .third-chart-container {
+    position: relative;
+    width: 450px;
+    height: 435px;
+    box-shadow: 0 4px 5px 1px rgba(0, 0, 0, 0.25);
+  }
+  #bottom-buttons-group {
+    position: absolute;
+    bottom: 2.5%;
+    left: 50%;
+    display: flex;
+    flex-direction: row;
+    gap:1rem;
+    transform: translate(-50%);
+    .prev-state-btn {
+      background: $bg-orange-500;
+      &:hover {
+        background: $bg-orange-600;
+      }
+    }
+    .next-state-btn {
+      background: $bg-sky-600;
+      &:hover {
+        background: $bg-sky-700;
+      }
+    }
+  }
+}
 
