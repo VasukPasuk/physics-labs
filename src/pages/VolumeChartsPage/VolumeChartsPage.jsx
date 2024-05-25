@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import './VolumeChartsPage.scss';
-import {FaArrowLeft, FaArrowRight} from "react-icons/fa";
+import {FaArrowDown, FaArrowLeft, FaArrowRight, FaArrowUp} from "react-icons/fa";
 // width, height, depth
 const STAGE_DATA = {
   cube: [[150, 150, 150], [50, 150, 150], [50, 50, 200], [50, 50, 50]],
@@ -16,9 +16,10 @@ function VolumeChartsPage(props) {
   const [isMouseDown, setIsMouseDown] = useState(false);
   const [rotationY, setRotationY] = useState(-15);
   const startX = useRef(0);
-  
+  const [verticalRotation, setVerticalRotation] = useState(-15)
   const canvasRef = useRef(null);
-  
+  const tst = STAGE_DATA.cube[currentStage - 1][1] - STAGE_DATA.cube[currentStage - 1][2] / 2
+  console.log(tst)
   const handleMouseDown = (e) => {
     setIsMouseDown(true);
     startX.current = e.clientX;
@@ -42,9 +43,10 @@ function VolumeChartsPage(props) {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     
-    const origin = { x: canvas.width / 10, y: canvas.height - 40 };
+    const origin = {x: canvas.width / 10, y: canvas.height - 40};
     const scale = 50;
     const drawFunctions = [drawFirstChart, drawSecondChart, drawThirdChart, drawFourthChart]
+    
     function drawAxes() {
       ctx.beginPath();
       ctx.moveTo(0, origin.y);
@@ -54,9 +56,9 @@ function VolumeChartsPage(props) {
       ctx.strokeStyle = 'rgba(0, 0, 0, 0.475)';
       ctx.stroke();
       
-      ctx.font = '16px Arial italic';
-      ctx.fillText("0", canvas.width / 10 - 15, canvas.height - 20);
-      ctx.fillText("N(E)", canvas.width / 10 - 35, 20);
+      ctx.font = '20px Arial italic';
+      ctx.fillText("0", canvas.width / 10 - 17, canvas.height - 20);
+      ctx.fillText("N(E)", canvas.width / 10 - 40, 20);
       ctx.fillText("E", canvas.width - 20, canvas.height - 20);
     }
     
@@ -72,57 +74,135 @@ function VolumeChartsPage(props) {
       
       ctx.stroke();
     }
+    
     function drawSecondChart() {
       ctx.beginPath();
       ctx.strokeStyle = "black";
-      
+      ctx.save();
+      ctx.lineWidth = 3;
+      ctx.setLineDash([5, 5]); // 5 pixels dash, 15 pixels gap
       for (let x = origin.x; x < canvas.width; x++) {
         let canvasX = x - origin.x + 40;
         let canvasY = origin.y - Math.log((x / scale)) * scale * 1.75 - 20;
         ctx.lineTo(canvasX, canvasY);
       }
       ctx.stroke();
+      ctx.restore();
       
+      
+      ctx.save();
       ctx.beginPath();
-      ctx.strokeStyle = "red";
+      ctx.strokeStyle = "black";
+      ctx.lineWidth = '3'
       
       ctx.moveTo(origin.x + 125, origin.y);
       ctx.lineTo(origin.x + 125, origin.y - 125);
       
-      ctx.moveTo(origin.x + 125,origin.y - 125);
+      ctx.moveTo(origin.x + 125, origin.y - 125);
       ctx.lineTo(origin.x + 195, origin.y - 125);
       
-      ctx.moveTo(origin.x + 195,origin.y - 125);
+      ctx.moveTo(origin.x + 195, origin.y - 125);
       ctx.lineTo(origin.x + 195, origin.y - 155);
       
-      ctx.moveTo(origin.x + 195,origin.y - 155);
+      ctx.moveTo(origin.x + 195, origin.y - 155);
       ctx.lineTo(origin.x + 295, origin.y - 155);
       
-      ctx.moveTo(origin.x + 295,origin.y - 155);
+      ctx.moveTo(origin.x + 295, origin.y - 155);
       ctx.lineTo(origin.x + 295, origin.y - 187);
+      ctx.stroke();
+      ctx.restore();
+      ctx.font = '20px Arial italic';
+      ctx.fillText("3D", 180, 230);
+      ctx.font = '32px Arial italic';
+      ctx.fillText("↓", 205, 235);
       
-      ctx.fillText("E1", origin.x + 125 - 10, origin.y + 15);
-      ctx.fillText("E2", origin.x + 195 - 10, origin.y + 15);
-      ctx.fillText("E3", origin.x + 295 - 10, origin.y + 15);
+      ctx.font = '32px Arial italic';
+      ctx.fillText("↑", 260, 265);
+      ctx.font = '20px Arial italic';
+      ctx.fillText("2D", 275, 270);
       
+      [125, 195, 295].forEach((num, index) => {
+        ctx.fillText(`E${index + 1}`, origin.x + num - 10, origin.y + 15);
+      })
+      ctx.stroke();
+      ctx.save();
+      
+      ctx.beginPath();
+      
+      ctx.setLineDash([5, 5])
+      
+      ctx.moveTo(origin.x + 195, origin.y);
+      ctx.lineTo(origin.x + 195, origin.y - 125);
+      
+      ctx.moveTo(origin.x + 295, origin.y);
+      ctx.lineTo(origin.x + 295, origin.y - 155);
       
       ctx.stroke();
       
+      ctx.restore();
+      
     }
+    
+    
     function drawThirdChart() {
+      const startHeight = 200;
+      const heightGap = 25;
+      const widthGap = 75;
+      
+      ctx.font = '14px Arial italic';
+      
+      for (let i = 0; i <= 3; i++) {
+        const L1 = [origin.x + widthGap * (i + 1), i === 3 ? origin.y - startHeight : origin.y - startHeight - heightGap * (i + 1)];
+        const L2 = [origin.x + widthGap * (i + 1), origin.y]
+        
+        
+        
+        ctx.save()
+        ctx.beginPath();
+        ctx.strokeStyle = "black"
+        
+        ctx.moveTo(L1[0], L1[1]);
+        ctx.lineTo(L2[0], L2[1]);
+        
+        ctx.stroke();
+        ctx.restore()
+        
+        ctx.save()
+
+        ctx.beginPath();
+        ctx.strokeStyle = "black"
+
+        ctx.setLineDash([5,5])
+        ctx.moveTo(L1[0], L1[1]);
+        ctx.lineTo(L2[0], 40);
+
+        ctx.stroke();
+        ctx.restore()
+        
+        ctx.fillText(["E11", "E21", "E22", "E13"][i], L1[0] - 7.5, origin.y + 15);
+        
+      }
+      
+    }
+    
+    
+    function drawFourthChart() {
       ctx.beginPath()
       ctx.strokeStyle = "black";
       
-      [[origin.x + 50, origin.y], [origin.x + 150, origin.y], [origin.x + 250, origin.y]].forEach((coords, index) => {
+      [[origin.x + 75, origin.y], [origin.x + 150, origin.y], [origin.x + 225, origin.y]].forEach((coords, index) => {
         const [axis_X, axis_Y] = coords;
-        ctx.moveTo(axis_X,axis_Y);
-        ctx.lineTo(axis_X, axis_Y - 150 - 45*(++index));
+        ctx.moveTo(axis_X, origin.y);
+        ctx.lineTo(axis_X, origin.y - 150 - 45 * (++index));
       })
       
       ctx.stroke()
-    }
-    function drawFourthChart() {
-    
+      
+      ctx.font = '16px Arial italic';
+      
+      for (let i = 1; i < 4; i++) {
+        ctx.fillText(`E${i}`, origin.x + (50 + 100 * (i - 1)) - 10, origin.y + 15);
+      }
     }
     
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -140,6 +220,18 @@ function VolumeChartsPage(props) {
         <div
           className="cube-container"
         >
+          <div className="change-vertical-angle-buttons-group">
+            <button onClick={() => {
+              setVerticalRotation(rotation => rotation <= 30 ? rotation + 10 : rotation)
+            }}>
+              <FaArrowUp/>
+            </button>
+            <button onClick={() => {
+              setVerticalRotation(rotation => rotation >= -30 ? rotation - 10 : rotation)
+            }}>
+              <FaArrowDown/>
+            </button>
+          </div>
           <div
             className="cube"
             onMouseDown={handleMouseDown}
@@ -147,7 +239,7 @@ function VolumeChartsPage(props) {
             onMouseUp={handleMouseUp}
             onMouseLeave={handleMouseUp}
             style={{
-              transform: `rotateY(${rotationY}deg) rotateX(-10deg)`,
+              transform: `rotateY(${rotationY}deg) rotateX(${verticalRotation}deg)`,
             }}
           >
             <div
@@ -173,7 +265,22 @@ function VolumeChartsPage(props) {
                 </>
               )}
               {currentStage === 3 && (
-                <div className="second-phase__front-frame">
+                <div className="third-phase__front-frame">
+                  <span className="phase-label-box">
+                    <span className="label_big">
+                      d
+                    </span>
+                    <span className="label_small">
+                      x
+                    </span>
+                  </span>
+                  <div className="third-phase-line"/>
+                </div>
+              )}
+              {currentStage === 4 && (
+                <>
+                  
+                  <div className="fourth-phase__front-frame">
                   <span className="phase-label-box">
                     <span className="label_big">
                       d
@@ -182,21 +289,34 @@ function VolumeChartsPage(props) {
                       z
                     </span>
                   </span>
-                  <div className="second-phase-line"/>
-                </div>
+                    <div className="fourth-phase-line"/>
+                  </div>
+                  
+                  <div className="fourth-phase__front-frame">
+                  <span className="phase-label-box">
+                    <span className="label_big">
+                      d
+                    </span>
+                    <span className="label_small">
+                      x
+                    </span>
+                  </span>
+                    <div className="fourth-phase-line"/>
+                  </div>
+                </>
               )}
             </div>
             <div className="cube__face cube__face--back"
-              style={{
-                top: STAGE_DATA.pos.top[currentStage - 1] + 'px',
-                left: STAGE_DATA.pos.left[currentStage - 1] + 'px',
-                width: STAGE_DATA.cube[currentStage - 1][0],
-                height: STAGE_DATA.cube[currentStage - 1][1],
-                transform: `rotateY(180deg) translateZ(${STAGE_DATA.cube[currentStage - 1][2] / 2}px)`,
-              }}
+                 style={{
+                   top: STAGE_DATA.pos.top[currentStage - 1] + 'px',
+                   left: STAGE_DATA.pos.left[currentStage - 1] + 'px',
+                   width: STAGE_DATA.cube[currentStage - 1][0],
+                   height: STAGE_DATA.cube[currentStage - 1][1],
+                   transform: `rotateY(180deg) translateZ(${STAGE_DATA.cube[currentStage - 1][2] / 2}px)`,
+                 }}
             >
               {currentStage === 3 && (
-                <div className="second-phase__back-frame">
+                <div className="third-phase__back-frame">
                   <span className="phase-label-box">
                     <span className="label_big">
                       d
@@ -205,44 +325,61 @@ function VolumeChartsPage(props) {
                       z
                     </span>
                   </span>
-                  <div className="second-phase-line"/>
+                  <div className="third-phase-line"/>
                 </div>
               )}
             </div>
             <div className="cube__face cube__face--left"
-              style={{
-                top: STAGE_DATA.pos.top[currentStage - 1] + 'px',
-                left: STAGE_DATA.pos.left[currentStage - 1] + 'px',
-                width: STAGE_DATA.cube[currentStage - 1][2],
-                height: STAGE_DATA.cube[currentStage - 1][1],
-                transform: `rotateY(-90deg) translateZ(${STAGE_DATA.cube[currentStage - 1][2] / 2}px)`,
-              }}
-            />
-            <div className="cube__face cube__face--right"
-              style={{
-                top: STAGE_DATA.pos.top[currentStage - 1] + 'px',
-                left: STAGE_DATA.pos.left[currentStage - 1] + 'px',
-                width: STAGE_DATA.cube[currentStage - 1][2] + 'px',
-                height: STAGE_DATA.cube[currentStage - 1][1] + 'px',
-                transform: `rotateY(90deg) translateZ(${STAGE_DATA.cube[currentStage - 1][0] - STAGE_DATA.cube[currentStage - 1][2] / 2}px)`,
-              }}
-            />
-            <div className="cube__face cube__face--top"
-              style={{
-                top: STAGE_DATA.pos.top[currentStage - 1] + 'px',
-                left: STAGE_DATA.pos.left[currentStage - 1] + 'px',
-                width: STAGE_DATA.cube[currentStage - 1][0],
-                height: STAGE_DATA.cube[currentStage - 1][2],
-                transform: `rotateX(90deg) translateZ(${STAGE_DATA.cube[currentStage - 1][2] / 2}px)`
-              }}
-            />
-            <div className="cube__face cube__face--bottom"
                  style={{
-                   width: STAGE_DATA.cube[currentStage - 1][0] + 'px',
-                   height: STAGE_DATA.cube[currentStage - 1][2] + 'px',
-                   transform: `rotateX(-90deg) translateZ(${STAGE_DATA.cube[currentStage - 1][1] - STAGE_DATA.cube[currentStage - 1][2] / 2})px`,
+                   top: STAGE_DATA.pos.top[currentStage - 1] + 'px',
+                   left: STAGE_DATA.pos.left[currentStage - 1] + 'px',
+                   width: STAGE_DATA.cube[currentStage - 1][2],
+                   height: STAGE_DATA.cube[currentStage - 1][1],
+                   transform: `rotateY(-90deg) translateZ(${STAGE_DATA.cube[currentStage - 1][2] / 2}px)`,
                  }}
             />
+            <div className="cube__face cube__face--right"
+                 style={{
+                   top: STAGE_DATA.pos.top[currentStage - 1] + 'px',
+                   left: STAGE_DATA.pos.left[currentStage - 1] + 'px',
+                   width: STAGE_DATA.cube[currentStage - 1][2] + 'px',
+                   height: STAGE_DATA.cube[currentStage - 1][1] + 'px',
+                   transform: `rotateY(90deg) translateZ(${STAGE_DATA.cube[currentStage - 1][0] - STAGE_DATA.cube[currentStage - 1][2] / 2}px)`,
+                 }}
+            >
+            </div>
+            <div className="cube__face cube__face--top"
+                 style={{
+                   top: STAGE_DATA.pos.top[currentStage - 1] + 'px',
+                   left: STAGE_DATA.pos.left[currentStage - 1] + 'px',
+                   width: STAGE_DATA.cube[currentStage - 1][0],
+                   height: STAGE_DATA.cube[currentStage - 1][2],
+                   transform: `rotateX(90deg) translateZ(${STAGE_DATA.cube[currentStage - 1][2] / 2}px)`
+                 }}
+            >
+              {(currentStage === 4) && (
+                <div className="fourth-phase__front-frame">
+                  <span className="phase-label-box">
+                    <span className="label_big">
+                      d
+                    </span>
+                    <span className="label_small">
+                      y
+                    </span>
+                  </span>
+                  <div className="fourth-phase-line"/>
+                </div>
+              )}
+            </div>
+            {/*<div className="cube__face cube__face--bottom"*/}
+            {/*     style={{*/}
+            {/*       width: STAGE_DATA.cube[currentStage - 1][0] + 'px',*/}
+            {/*       height: STAGE_DATA.cube[currentStage - 1][2] + 'px',*/}
+            {/*       transform: `rotateX(-90deg) rotateZ(${tst})`,*/}
+            {/*     }}*/}
+            {/*>*/}
+            {/*  1*/}
+            {/*</div>*/}
             
             <div className="cube__axis cube__face--x">
               <span className="axis-label axis-label-x">
@@ -251,10 +388,10 @@ function VolumeChartsPage(props) {
             </div>
             <div className="cube__axis cube__face--y">
               <span className="axis-label axis-label-y">
-                Y-axis
+                Z-axis
               </span>
               <span className="axis-label axis-label-z">
-                Z-axis
+                Y-axis
               </span>
             </div>
           </div>
@@ -291,7 +428,7 @@ function VolumeChartsPage(props) {
         <canvas ref={canvasRef} width="400" height="435"></canvas>
       </div>
       <div id="bottom-buttons-group">
-        { (currentStage !== 1) && (<button
+        {(currentStage !== 1) && (<button
           onClick={() => setCurrentStage(prev => prev === 1 ? 1 : --prev)}
           className="switch-state-button prev-state-btn"
         >
