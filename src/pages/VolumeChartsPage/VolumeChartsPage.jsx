@@ -174,7 +174,15 @@ function VolumeChartsPage(props) {
               )}
               {currentStage === 3 && (
                 <div className="second-phase__front-frame">
-                  1
+                  <span className="phase-label-box">
+                    <span className="label_big">
+                      d
+                    </span>
+                    <span className="label_small">
+                      z
+                    </span>
+                  </span>
+                  <div className="second-phase-line"/>
                 </div>
               )}
             </div>

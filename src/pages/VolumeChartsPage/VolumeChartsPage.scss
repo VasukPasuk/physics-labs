@@ -98,6 +98,44 @@ $cube-depth: 150px;
               left: 100%;
             }
           }
+          .second-phase__front-frame {
+            position: absolute;
+            width: 105%;
+            height: 100%;
+            top: 100%;
+            border-top: 2px solid black;
+            border-bottom: 2px solid black;
+            transform: rotateZ(90deg);
+            & > .phase-label-box {
+              position: absolute;
+              bottom: 150%;
+              right: -50%;
+            }
+            & > .second-phase-line {
+              position: absolute;
+              right: 6%;
+              top: -100%;
+              width: 1px;
+              height: 250%;
+              background: #000;
+            }
+            &::before {
+              bottom: 100%;
+              position: absolute;
+              content: '▲';
+              right: -5%;
+              font-size: 0.75rem;
+              transform: rotateX(180deg);
+            }
+            &::after {
+              top: 100%;
+              position: absolute;
+              content: '▲';
+              right: -5%;
+              font-size: 0.75rem;
+              transform: rotateX(0deg);
+            }
+          }
         }
         //
         &__face--back {
