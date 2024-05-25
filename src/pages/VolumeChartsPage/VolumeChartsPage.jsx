@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import './VolumeChartsPage.scss';
 import {FaArrowLeft, FaArrowRight} from "react-icons/fa";
 // width, height, depth
-const stage_data = {
+const STAGE_DATA = {
   cube: [[150, 150, 150], [50, 150, 150], [50, 50, 200], [50, 50, 50]],
   pos: {
     left: [30, 60, 80, 70],
@@ -124,6 +124,7 @@ function VolumeChartsPage(props) {
     function drawFourthChart() {
     
     }
+    
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawAxes();
     drawFunctions[currentStage - 1]()
@@ -149,56 +150,89 @@ function VolumeChartsPage(props) {
               transform: `rotateY(${rotationY}deg) rotateX(-10deg)`,
             }}
           >
-            <div className="cube__face cube__face--front"
+            <div
+              className="cube__face cube__face--front"
+              data-current-stage={currentStage}
               style={{
-                top: stage_data.pos.top[currentStage - 1] + 'px',
-                left: stage_data.pos.left[currentStage - 1] + 'px',
-                width: stage_data.cube[currentStage - 1][0],
-                height: stage_data.cube[currentStage - 1][1],
-                transform: `translateZ(${stage_data.cube[currentStage - 1][2] / 2}px)`,
+                top: STAGE_DATA.pos.top[currentStage - 1] + 'px',
+                left: STAGE_DATA.pos.left[currentStage - 1] + 'px',
+                width: STAGE_DATA.cube[currentStage - 1][0],
+                height: STAGE_DATA.cube[currentStage - 1][1],
+                transform: `translateZ(${STAGE_DATA.cube[currentStage - 1][2] / 2}px)`,
               }}
-            />
+            >
+              
+              {(currentStage === 2) && (
+                <>
+                  <FaArrowRight className="second-phase-arrow"/>
+                  <FaArrowLeft className="second-phase-arrow"/>
+                  <span className="second-phase__label phase-label-box">
+                    <span className="second-phase__label_big">d</span>
+                    <span className="second-phase__label_small">x</span>
+                  </span>
+                </>
+              )}
+              {currentStage === 3 && (
+                <div className="second-phase__front-frame">
+                  1
+                </div>
+              )}
+            </div>
             <div className="cube__face cube__face--back"
               style={{
-                top: stage_data.pos.top[currentStage - 1] + 'px',
-                left: stage_data.pos.left[currentStage - 1] + 'px',
-                width: stage_data.cube[currentStage - 1][0],
-                height: stage_data.cube[currentStage - 1][1],
-                transform: `rotateY(180deg) translateZ(${stage_data.cube[currentStage - 1][2] / 2}px)`,
+                top: STAGE_DATA.pos.top[currentStage - 1] + 'px',
+                left: STAGE_DATA.pos.left[currentStage - 1] + 'px',
+                width: STAGE_DATA.cube[currentStage - 1][0],
+                height: STAGE_DATA.cube[currentStage - 1][1],
+                transform: `rotateY(180deg) translateZ(${STAGE_DATA.cube[currentStage - 1][2] / 2}px)`,
               }}
-            />
+            >
+              {currentStage === 3 && (
+                <div className="second-phase__back-frame">
+                  <span className="phase-label-box">
+                    <span className="label_big">
+                      d
+                    </span>
+                    <span className="label_small">
+                      z
+                    </span>
+                  </span>
+                  <div className="second-phase-line"/>
+                </div>
+              )}
+            </div>
             <div className="cube__face cube__face--left"
               style={{
-                top: stage_data.pos.top[currentStage - 1] + 'px',
-                left: stage_data.pos.left[currentStage - 1] + 'px',
-                width: stage_data.cube[currentStage - 1][2],
-                height: stage_data.cube[currentStage - 1][1],
-                transform: `rotateY(-90deg) translateZ(${stage_data.cube[currentStage - 1][2] / 2}px)`,
+                top: STAGE_DATA.pos.top[currentStage - 1] + 'px',
+                left: STAGE_DATA.pos.left[currentStage - 1] + 'px',
+                width: STAGE_DATA.cube[currentStage - 1][2],
+                height: STAGE_DATA.cube[currentStage - 1][1],
+                transform: `rotateY(-90deg) translateZ(${STAGE_DATA.cube[currentStage - 1][2] / 2}px)`,
               }}
             />
             <div className="cube__face cube__face--right"
               style={{
-                top: stage_data.pos.top[currentStage - 1] + 'px',
-                left: stage_data.pos.left[currentStage - 1] + 'px',
-                width: stage_data.cube[currentStage - 1][2] + 'px',
-                height: stage_data.cube[currentStage - 1][1] + 'px',
-                transform: `rotateY(90deg) translateZ(${stage_data.cube[currentStage - 1][0] - stage_data.cube[currentStage - 1][2] / 2}px)`,
+                top: STAGE_DATA.pos.top[currentStage - 1] + 'px',
+                left: STAGE_DATA.pos.left[currentStage - 1] + 'px',
+                width: STAGE_DATA.cube[currentStage - 1][2] + 'px',
+                height: STAGE_DATA.cube[currentStage - 1][1] + 'px',
+                transform: `rotateY(90deg) translateZ(${STAGE_DATA.cube[currentStage - 1][0] - STAGE_DATA.cube[currentStage - 1][2] / 2}px)`,
               }}
             />
             <div className="cube__face cube__face--top"
               style={{
-                top: stage_data.pos.top[currentStage - 1] + 'px',
-                left: stage_data.pos.left[currentStage - 1] + 'px',
-                width: stage_data.cube[currentStage - 1][0],
-                height: stage_data.cube[currentStage - 1][2],
-                transform: `rotateX(90deg) translateZ(${stage_data.cube[currentStage - 1][2] / 2}px)`
+                top: STAGE_DATA.pos.top[currentStage - 1] + 'px',
+                left: STAGE_DATA.pos.left[currentStage - 1] + 'px',
+                width: STAGE_DATA.cube[currentStage - 1][0],
+                height: STAGE_DATA.cube[currentStage - 1][2],
+                transform: `rotateX(90deg) translateZ(${STAGE_DATA.cube[currentStage - 1][2] / 2}px)`
               }}
             />
             <div className="cube__face cube__face--bottom"
                  style={{
-                   width: stage_data.cube[currentStage - 1][0] + 'px',
-                   height: stage_data.cube[currentStage - 1][2] + 'px',
-                   transform: `rotateX(-90deg) translateZ(${stage_data.cube[currentStage - 1][1] - stage_data.cube[currentStage - 1][2] / 2})px`,
+                   width: STAGE_DATA.cube[currentStage - 1][0] + 'px',
+                   height: STAGE_DATA.cube[currentStage - 1][2] + 'px',
+                   transform: `rotateX(-90deg) translateZ(${STAGE_DATA.cube[currentStage - 1][1] - STAGE_DATA.cube[currentStage - 1][2] / 2})px`,
                  }}
             />
             
