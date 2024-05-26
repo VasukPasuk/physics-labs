@@ -19,7 +19,7 @@ function VolumeChartsPage(props) {
   const [verticalRotation, setVerticalRotation] = useState(-15)
   const canvasRef = useRef(null);
   const tst = STAGE_DATA.cube[currentStage - 1][1] - STAGE_DATA.cube[currentStage - 1][2] / 2
-  console.log(tst)
+
   const handleMouseDown = (e) => {
     setIsMouseDown(true);
     startX.current = e.clientX;
@@ -145,43 +145,58 @@ function VolumeChartsPage(props) {
     
     
     function drawThirdChart() {
-      const startHeight = 200;
-      const heightGap = 25;
-      const widthGap = 75;
+      const startHeight = 200,
+            heightGap = 25,
+            widthGap = 75,
+            PI = Math.PI;
       
       ctx.font = '14px Arial italic';
       
       for (let i = 0; i <= 3; i++) {
-        const L1 = [origin.x + widthGap * (i + 1), i === 3 ? origin.y - startHeight : origin.y - startHeight - heightGap * (i + 1)];
-        const L2 = [origin.x + widthGap * (i + 1), origin.y]
+        const endP = [origin.x + widthGap * (i + 1), i === 3 ? origin.y - startHeight : origin.y - startHeight - heightGap * (i + 1)];
+        const startP = [origin.x + widthGap * (i + 1), origin.y]
         
+        if (i <= 2) {
+          ctx.save();
+          ctx.beginPath();
+          ctx.strokeStyle = "black"
+          ctx.lineWidth = "3"
+          ctx.arc(endP[0] + widthGap, endP[1], widthGap, Math.PI / 2, Math.PI, false);
+          ctx.stroke();
+          ctx.closePath()
+          ctx.restore();
+        }
         
         
         ctx.save()
         ctx.beginPath();
         ctx.strokeStyle = "black"
-        
-        ctx.moveTo(L1[0], L1[1]);
-        ctx.lineTo(L2[0], L2[1]);
+        ctx.lineWidth = "3"
+        ctx.moveTo(endP[0], endP[1]);
+        ctx.lineTo(startP[0], startP[1]);
         
         ctx.stroke();
-        ctx.restore()
+        // ctx.restore()
         
         ctx.save()
 
         ctx.beginPath();
         ctx.strokeStyle = "black"
-
+        ctx.lineWidth = "2"
         ctx.setLineDash([5,5])
-        ctx.moveTo(L1[0], L1[1]);
-        ctx.lineTo(L2[0], 40);
+        ctx.moveTo(endP[0], endP[1]);
+        ctx.lineTo(startP[0], 50);
 
         ctx.stroke();
         ctx.restore()
         
-        ctx.fillText(["E11", "E21", "E22", "E13"][i], L1[0] - 7.5, origin.y + 15);
-        
+        ctx.fillText(["E11", "E21", "E22", "E13"][i], endP[0] - 7.5, origin.y + 15);
       }
+      
+      
+      
+      
+      
       
     }
     
@@ -377,10 +392,7 @@ function VolumeChartsPage(props) {
             {/*       height: STAGE_DATA.cube[currentStage - 1][2] + 'px',*/}
             {/*       transform: `rotateX(-90deg) rotateZ(${tst})`,*/}
             {/*     }}*/}
-            {/*>*/}
-            {/*  1*/}
-            {/*</div>*/}
-            
+            {/*/>*/}
             <div className="cube__axis cube__face--x">
               <span className="axis-label axis-label-x">
                 X-axis
@@ -421,9 +433,31 @@ function VolumeChartsPage(props) {
           Поворот: {rotationY} градусів
         </div>
       </div>
-      <div className="second-chart-container">
       
+      
+      <div className="second-chart-container">
+        
+        <div className="sec-cont__first-phase-chart">
+          <span className="sec-cont__first-phase-chart__top-label">
+            E
+          </span>
+          <span className="sec-cont__first-phase-chart__bottom-label">
+            0
+          </span>
+          <span className="sec-cont__first-phase-chart__bottom-right-label">
+            kx, ky, kz
+          </span>
+          <div className="sec-cont__first-phase-chart__circle-container"/>
+        </div>
+        <div className="sec-cont__second-phase-chart">
+        
+        </div>
+        <div className="sec-cont__third-phase-chart">
+        
+        </div>
       </div>
+      
+      
       <div className="third-chart-container">
         <canvas ref={canvasRef} width="400" height="435"></canvas>
       </div>

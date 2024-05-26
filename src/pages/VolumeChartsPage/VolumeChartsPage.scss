@@ -412,6 +412,33 @@ $cube-depth: 150px;
     width: 450px;
     height: 435px;
     box-shadow: 0 4px 5px 1px rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .sec-cont__first-phase-chart {
+      .sec-cont__first-phase-chart__top-label {
+        position: absolute;
+        top: 2%;
+      }
+      .sec-cont__first-phase-chart__bottom-label {
+        position: absolute;
+        bottom: 0;
+      }
+      .sec-cont__first-phase-chart__bottom-right-label {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+      }
+      .sec-cont__first-phase-chart__circle-container {
+
+      }
+    }
+    .sec-cont__second-phase-chart {
+
+    }
+    .sec-cont__third-phase-chart {
+
+    }
   }
 
   .third-chart-container {
