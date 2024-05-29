@@ -11,8 +11,12 @@ $cube-depth: 150px;
   justify-items: center;
   align-items: center;
   padding: 0 2rem;
+  transition: all 1s ease;
   gap: 2rem;
-
+  &[data-current-stage="4"] {
+    padding: 0 12.5rem;
+    gap: 4rem;
+  }
   .first-chart-container {
     position: relative;
     display: flex;
@@ -412,32 +416,287 @@ $cube-depth: 150px;
     width: 450px;
     height: 435px;
     box-shadow: 0 4px 5px 1px rgba(0, 0, 0, 0.25);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    .sec-cont__first-phase-chart {
-      .sec-cont__first-phase-chart__top-label {
-        position: absolute;
-        top: 2%;
-      }
-      .sec-cont__first-phase-chart__bottom-label {
-        position: absolute;
-        bottom: 0;
-      }
-      .sec-cont__first-phase-chart__bottom-right-label {
-        position: absolute;
-        right: 0;
-        bottom: 0;
-      }
-      .sec-cont__first-phase-chart__circle-container {
 
+    .second-chart-container__change-horizontal-rotation-button-box {
+      display: flex;
+      flex-direction: column;
+      width: 10%;
+      position: absolute;
+      right: 2%;
+      gap: 0.25rem;
+      button {
+        padding: 0.325rem 0.5rem;
+        background: $bg-blue-700;
+        &:nth-child(1) {
+          color: $bg-gray-600;;
+          background: $bg-cyan-300;
+          &:hover {
+            background: $bg-cyan-400;
+          }
+        }
+        &:nth-child(2) {
+          color: $bg-gray-600;
+          background: $bg-red-200;
+          &:hover {
+            background: $bg-red-300;
+          }
+        }
+      }
+      z-index: 100;
+    }
+    .second-chart-container__change-vertical-rotation-button-box {
+      display: flex;
+      flex-direction: row;
+      position: absolute;
+      bottom: 1%;
+      width: 100%;
+      justify-content: space-between;
+      padding: 0 1.5rem;
+      button {
+        padding: 0.325rem 1rem;
+        background: $bg-blue-700;
+        &:hover {
+          background: $bg-blue-800;
+        }
+        &:nth-child(2) {
+          background: $bg-blue-500;
+
+          &:hover {
+            background: $bg-blue-600;
+          }
+        }
+      }
+    }
+    .sec-cont__first-phase-chart {
+      width: 100%;
+      height: 90%;
+      transform-style: preserve-3d;
+      transition: 2s ease all;
+      user-select: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: rotateX(-15deg) rotateY(15deg);
+      .phase-frame {
+        position: absolute;
+        width: 70%;
+        height: 59%;
+        border-bottom: 2px solid black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+      }
+      .first-phase-chart__horizontal-frame {
+        transform: rotateY(90deg);
+        transition: 2s ease all;
+        overflow: hidden;
+        &::before {
+          position: absolute;
+          content: "";
+          width: 44%;
+          height: 200%;
+          bottom: 0;
+          border: 2px solid black;
+          border-radius: 100%;
+        }
+      }
+      .first-phase-chart__vertical-frame {
+        transition: 2s ease all;
+        overflow: hidden;
+        &::before {
+          position: absolute;
+          content: "";
+          width: 71%;
+          height: 200%;
+          bottom: 0;
+          border: 2px solid black;
+          border-radius: 100%;
+        }
+        &::after {
+          position: absolute;
+          content: "";
+          right: 50%;
+          transform: translate(50%);
+          background: #000;
+          height: 100%;
+          bottom: 0;
+          border: 1px solid black;
+        }
+        .first-phase-chart__vertical-frame__label {
+          position: absolute;
+          top: 5%;
+          right: 57%;
+          font-weight: 500;
+          font-size: 1.25rem;
+        }
+      }
+      .first-phase-chart__circle-frame {
+        width: 50%;
+        height: 30%;
+        transform: rotateX(90deg) translateZ(115px);
+        border-radius: 100%;
+        border: 1px solid black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
     }
     .sec-cont__second-phase-chart {
+      width: 100%;
+      height: 90%;
+      transform-style: preserve-3d;
+      transition: 2s ease all;
+      user-select: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: rotateX(-15deg) rotateY(25deg);
+      .phase-frame {
+        position: absolute;
+        width: 70%;
+        height: 80%;
+        border-bottom: 2px solid black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .second-phase-chart__vertical-frame__circle-label {
+          position: absolute;
+        }
+        .chart-deep-figure {
+          position: absolute;
+          bottom: 5%;
+          width: 50%;
+          height: 35%;
+          overflow: hidden;
 
+          .chart-deep-figure__half-circle-figure {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 200%;
+            width: 100%;
+            border-radius: 100%;
+            border: 2px solid black;
+          }
+          &:nth-child(2) {
+            bottom: 27.5%;
+          }
+          &:nth-child(3) {
+            bottom: 50%;
+          }
+        }
+      }
+      .second-phase-chart__horizontal-frame {
+        transform: rotateY(90deg);
+        transition: 2s ease all;
+        overflow: hidden;
+      }
+      .second-phase-chart__vertical-frame {
+        transition: 2s ease all;
+        overflow: hidden;
+        &::after {
+          position: absolute;
+          content: "";
+          right: 50%;
+          transform: translate(50%);
+          height: 100%;
+          bottom: 0;
+          border: 1px solid black;
+        }
+      }
+      .chart-deep-figure__full-circle-figure {
+        position: absolute;
+        width: 35%;
+        height: 30%;
+        border: 1px solid #000;
+        border-radius: 100%;
+        transition: 2s ease all;
+        transform: rotateX(90deg);
+      }
+      .full-circle-figure-i-1 {
+        bottom: 27%;
+      }
+      .full-circle-figure-i-2 {
+        bottom: 45%;
+      }
+      .full-circle-figure-i-3 {
+        bottom: 63%;
+      }
     }
     .sec-cont__third-phase-chart {
+      width: 100%;
+      height: 90%;
+      transform-style: preserve-3d;
+      transition: 2s ease all;
+      user-select: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: rotateX(15deg) rotateY(20deg);
+      .phase-frame {
+        position: absolute;
+        width: 70%;
+        height: 80%;
+        border-bottom: 2px solid black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
+        .chart-deep-figure {
+          position: absolute;
+          bottom: 5%;
+          width: 50%;
+          height: 35%;
+          overflow: hidden;
+
+          .chart-deep-figure__half-circle-figure {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 200%;
+            width: 100%;
+            border-radius: 100%;
+            border: 2px solid black;
+          }
+          &:nth-child(2) {
+            bottom: 40%;
+          }
+        }
+      }
+      .third-phase-chart__horizontal-frame {
+        transform: rotateY(90deg);
+        transition: 2s ease all;
+        overflow: hidden;
+      }
+      .third-phase-chart__vertical-frame {
+        transition: 2s ease all;
+        overflow: hidden;
+        &::after {
+          position: absolute;
+          content: "";
+          right: 50%;
+          transform: translate(50%);
+          height: 100%;
+          bottom: 0;
+          border: 1px solid black;
+        }
+      }
+      .chart-deep-figure__full-circle-figure {
+        position: absolute;
+        width: 35%;
+        height: 30%;
+        border: 1px solid #000;
+        border-radius: 100%;
+        transition: 2s ease all;
+        transform: rotateX(90deg);
+      }
+      .full-circle-figure-i-1 {
+        bottom: 27%;
+      }
+      .full-circle-figure-i-2 {
+        bottom: 55%;
+      }
     }
   }
 
@@ -479,3 +738,17 @@ $cube-depth: 150px;
   }
 }
 
+
+
+.second-phase-chart__vertical-frame__circle-label {
+  position: absolute;
+  &:nth-child(1) {
+    bottom: 4%;
+  }
+  &:nth-child(2) {
+    bottom: 14%;
+  }
+  &:nth-child(3) {
+    bottom: 24%;
+  }
+}

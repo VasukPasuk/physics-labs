@@ -14,12 +14,22 @@ const STAGE_DATA = {
 function VolumeChartsPage(props) {
   const [currentStage, setCurrentStage] = useState(1);
   const [isMouseDown, setIsMouseDown] = useState(false);
-  const [rotationY, setRotationY] = useState(-15);
-  const startX = useRef(0);
+  
+  const [firstChartRotationY, setFirstChartRotationY] = useState(-15);
   const [verticalRotation, setVerticalRotation] = useState(-15)
+  
+  const [secondChartRotationY, setSecondChartRotationY] = useState(15);
+  const [secondChartVerticalRotation, setSecondChartVerticalRotation] = useState(15);
+  
+  
+ 
+  
+  const startX = useRef(0);
+  
+  
   const canvasRef = useRef(null);
   const tst = STAGE_DATA.cube[currentStage - 1][1] - STAGE_DATA.cube[currentStage - 1][2] / 2
-
+  
   const handleMouseDown = (e) => {
     setIsMouseDown(true);
     startX.current = e.clientX;
@@ -30,7 +40,7 @@ function VolumeChartsPage(props) {
     
     const deltaX = e.clientX - startX.current;
     
-    setRotationY((prevRotationY) => prevRotationY + deltaX * 0.5);
+    setFirstChartRotationY((prevRotationY) => prevRotationY + deltaX * 0.5);
     
     startX.current = e.clientX;
   };
@@ -45,7 +55,7 @@ function VolumeChartsPage(props) {
     
     const origin = {x: canvas.width / 10, y: canvas.height - 40};
     const scale = 50;
-    const drawFunctions = [drawFirstChart, drawSecondChart, drawThirdChart, drawFourthChart]
+    const drawFunctions = [drawFirstChart, drawSecondChart, drawThirdChart, drawFourthChart];
     
     function drawAxes() {
       ctx.beginPath();
@@ -80,7 +90,7 @@ function VolumeChartsPage(props) {
       ctx.strokeStyle = "black";
       ctx.save();
       ctx.lineWidth = 3;
-      ctx.setLineDash([5, 5]); // 5 pixels dash, 15 pixels gap
+      ctx.setLineDash([5, 5]);
       for (let x = origin.x; x < canvas.width; x++) {
         let canvasX = x - origin.x + 40;
         let canvasY = origin.y - Math.log((x / scale)) * scale * 1.75 - 20;
@@ -88,7 +98,6 @@ function VolumeChartsPage(props) {
       }
       ctx.stroke();
       ctx.restore();
-      
       
       ctx.save();
       ctx.beginPath();
@@ -123,13 +132,13 @@ function VolumeChartsPage(props) {
       
       [125, 195, 295].forEach((num, index) => {
         ctx.fillText(`E${index + 1}`, origin.x + num - 10, origin.y + 15);
-      })
+      });
       ctx.stroke();
       ctx.save();
       
       ctx.beginPath();
       
-      ctx.setLineDash([5, 5])
+      ctx.setLineDash([5, 5]);
       
       ctx.moveTo(origin.x + 195, origin.y);
       ctx.lineTo(origin.x + 195, origin.y - 125);
@@ -143,75 +152,64 @@ function VolumeChartsPage(props) {
       
     }
     
-    
     function drawThirdChart() {
       const startHeight = 200,
-            heightGap = 25,
-            widthGap = 75,
-            PI = Math.PI;
+        heightGap = 25,
+        widthGap = 75,
+        PI = Math.PI;
       
       ctx.font = '14px Arial italic';
       
       for (let i = 0; i <= 3; i++) {
         const endP = [origin.x + widthGap * (i + 1), i === 3 ? origin.y - startHeight : origin.y - startHeight - heightGap * (i + 1)];
-        const startP = [origin.x + widthGap * (i + 1), origin.y]
+        const startP = [origin.x + widthGap * (i + 1), origin.y];
         
         if (i <= 2) {
           ctx.save();
           ctx.beginPath();
-          ctx.strokeStyle = "black"
-          ctx.lineWidth = "3"
+          ctx.strokeStyle = "black";
+          ctx.lineWidth = "3";
           ctx.arc(endP[0] + widthGap, endP[1], widthGap, Math.PI / 2, Math.PI, false);
           ctx.stroke();
-          ctx.closePath()
+          ctx.closePath();
           ctx.restore();
         }
         
-        
-        ctx.save()
+        ctx.save();
         ctx.beginPath();
-        ctx.strokeStyle = "black"
-        ctx.lineWidth = "3"
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = "3";
         ctx.moveTo(endP[0], endP[1]);
         ctx.lineTo(startP[0], startP[1]);
         
         ctx.stroke();
-        // ctx.restore()
         
-        ctx.save()
-
+        ctx.save();
         ctx.beginPath();
-        ctx.strokeStyle = "black"
-        ctx.lineWidth = "2"
-        ctx.setLineDash([5,5])
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = "2";
+        ctx.setLineDash([5, 5]);
         ctx.moveTo(endP[0], endP[1]);
         ctx.lineTo(startP[0], 50);
-
+        
         ctx.stroke();
-        ctx.restore()
+        ctx.restore();
         
         ctx.fillText(["E11", "E21", "E22", "E13"][i], endP[0] - 7.5, origin.y + 15);
       }
-      
-      
-      
-      
-      
-      
     }
     
-    
     function drawFourthChart() {
-      ctx.beginPath()
+      ctx.beginPath();
       ctx.strokeStyle = "black";
       
       [[origin.x + 75, origin.y], [origin.x + 150, origin.y], [origin.x + 225, origin.y]].forEach((coords, index) => {
         const [axis_X, axis_Y] = coords;
         ctx.moveTo(axis_X, origin.y);
         ctx.lineTo(axis_X, origin.y - 150 - 45 * (++index));
-      })
+      });
       
-      ctx.stroke()
+      ctx.stroke();
       
       ctx.font = '16px Arial italic';
       
@@ -220,13 +218,28 @@ function VolumeChartsPage(props) {
       }
     }
     
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawAxes();
-    drawFunctions[currentStage - 1]()
+    let animationFrameId;
+    
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawAxes();
+      drawFunctions[currentStage - 1]();
+      animationFrameId = requestAnimationFrame(animate);
+    }
+    
+    animate();
+    
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+    };
   }, [currentStage]);
   
+  
   return (
-    <section id="volume-charts-page">
+    <section
+      id="volume-charts-page"
+      data-current-stage={currentStage}
+    >
       
       <div
         className="first-chart-container"
@@ -237,12 +250,12 @@ function VolumeChartsPage(props) {
         >
           <div className="change-vertical-angle-buttons-group">
             <button onClick={() => {
-              setVerticalRotation(rotation => rotation <= 30 ? rotation + 10 : rotation)
+              setVerticalRotation(rotation => rotation <= 30 ? rotation + 15 : rotation)
             }}>
               <FaArrowUp/>
             </button>
             <button onClick={() => {
-              setVerticalRotation(rotation => rotation >= -30 ? rotation - 10 : rotation)
+              setVerticalRotation(rotation => rotation >= -30 ? rotation - 15 : rotation)
             }}>
               <FaArrowDown/>
             </button>
@@ -254,7 +267,7 @@ function VolumeChartsPage(props) {
             onMouseUp={handleMouseUp}
             onMouseLeave={handleMouseUp}
             style={{
-              transform: `rotateY(${rotationY}deg) rotateX(${verticalRotation}deg)`,
+              transform: `rotateY(${firstChartRotationY}deg) rotateX(${verticalRotation}deg)`,
             }}
           >
             <div
@@ -414,48 +427,189 @@ function VolumeChartsPage(props) {
           style={{display: "flex", justifyContent: 'center', alignItems: 'center'}}
         >
           <button className="rotate-left-btn"
-                  onClick={() => setRotationY(currentRotation => currentRotation - 30)}
+                  onClick={() => setFirstChartRotationY(currentRotation => currentRotation - 30)}
           >
             <FaArrowLeft/>
           </button>
           <button className="rotate-zero-btn"
-                  onClick={() => setRotationY(currentRotation => -15)}
+                  onClick={() => setFirstChartRotationY(currentRotation => -15)}
           >
             Початкове положення
           </button>
           <button className="rotate-right-btn"
-                  onClick={() => setRotationY(currentRotation => currentRotation + 30)}
+                  onClick={() => setFirstChartRotationY(currentRotation => currentRotation + 30)}
           >
             <FaArrowRight/>
           </button>
         </div>
-        <div className="current-angle-label">
-          Поворот: {rotationY} градусів
-        </div>
+        {/*<div className="current-angle-label">*/}
+        {/*  {firstChartRotationY}*/}
+        {/*</div>*/}
       </div>
       
       
-      <div className="second-chart-container">
-        
-        <div className="sec-cont__first-phase-chart">
-          <span className="sec-cont__first-phase-chart__top-label">
-            E
-          </span>
-          <span className="sec-cont__first-phase-chart__bottom-label">
-            0
-          </span>
-          <span className="sec-cont__first-phase-chart__bottom-right-label">
-            kx, ky, kz
-          </span>
-          <div className="sec-cont__first-phase-chart__circle-container"/>
+      {currentStage !== 4 && (
+        <div className="second-chart-container">
+          <div className="second-chart-container__change-horizontal-rotation-button-box">
+            <button onClick={() => setSecondChartVerticalRotation(prev => prev - 15)}>
+              <FaArrowUp/>
+            </button>
+            <button onClick={() => setSecondChartVerticalRotation(prev => prev + 15)}>
+              <FaArrowDown/>
+            </button>
+          </div>
+          <div className="second-chart-container__change-vertical-rotation-button-box">
+            <button onClick={() => setSecondChartRotationY(currentRotation => currentRotation + 30)}>
+              <FaArrowLeft/>
+            </button>
+            <button onClick={() => setSecondChartRotationY(currentRotation => 15)}>
+              Початкове положення
+            </button>
+            <button onClick={() => setSecondChartRotationY(currentRotation => currentRotation - 30)}>
+              <FaArrowRight/>
+            </button>
+          </div>
+          {currentStage === 1 && (
+            <div
+              className="sec-cont__first-phase-chart"
+              style={{
+                transition: '1s ease all',
+                transform: `rotateY(${secondChartRotationY}deg) rotateX(${secondChartVerticalRotation}deg)`,
+              }}
+            >
+              <div className="first-phase-chart__horizontal-frame phase-frame">
+              
+              </div>
+              <div className="first-phase-chart__vertical-frame phase-frame">
+                <div className="first-phase-chart__vertical-frame__label">
+                  E
+                </div>
+              </div>
+              <div className="first-phase-chart__circle-frame">
+              
+              </div>
+            </div>
+          )}
+          {currentStage === 2 && (
+            <div
+              className="sec-cont__second-phase-chart"
+              style={{
+                transition: '1s ease all',
+                transform: `rotateY(${secondChartRotationY}deg) rotateX(${secondChartVerticalRotation}deg)`,
+              }}
+            >
+              <div className="second-phase-chart__horizontal-frame phase-frame">
+                <div className="second-phase-chart__first-deep-figure chart-deep-figure">
+                  <div className="chart-deep-figure__half-circle-figure">
+                  
+                  </div>
+                </div>
+                <div className="second-phase-chart__second-deep-figure chart-deep-figure">
+                  <div className="chart-deep-figure__half-circle-figure">
+                  
+                  </div>
+                </div>
+                <div className="second-phase-chart__third-deep-figure chart-deep-figure">
+                  <div className="chart-deep-figure__half-circle-figure">
+                  
+                  </div>
+                </div>
+              </div>
+              <div className="second-phase-chart__vertical-frame phase-frame">
+                <div className="second-phase-chart__first-deep-figure chart-deep-figure">
+                  <div className="chart-deep-figure__half-circle-figure">
+                  
+                  </div>
+                </div>
+                <div className="second-phase-chart__second-deep-figure chart-deep-figure">
+                  <div className="chart-deep-figure__half-circle-figure">
+                  
+                  </div>
+                </div>
+                <div className="second-phase-chart__third-deep-figure chart-deep-figure">
+                  <div className="chart-deep-figure__half-circle-figure">
+                  
+                  </div>
+                </div>
+                <div className="second-phase-chart__vertical-frame__circle-label circle-label-1"
+                     style={{bottom: `5%`, borderBottom: `2px black dashed`, width: `80%`}}
+                >
+                  <span>E</span><span style={{fontSize: '0.75rem'}}>3</span>
+                </div>
+                <div className="second-phase-chart__vertical-frame__circle-label circle-label-2"
+                     style={{bottom: `27%`, borderBottom: `2px black dashed`, width: `80%`}}
+                >
+                  <span>E</span><span style={{fontSize: '0.75rem'}}>2</span>
+                </div>
+                <div className="second-phase-chart__vertical-frame__circle-label circle-label-3"
+                     style={{bottom: `50%`, borderBottom: `2px black dashed`, width: `80%`}}
+                >
+                  <span>E</span><span style={{fontSize: '0.75rem'}}>1</span>
+                </div>
+              </div>
+              <div className="chart-deep-figure__full-circle-figure full-circle-figure-i-1">
+              
+              </div>
+              <div className="chart-deep-figure__full-circle-figure full-circle-figure-i-2">
+              
+              </div>
+              <div className="chart-deep-figure__full-circle-figure full-circle-figure-i-3">
+              
+              </div>
+            </div>
+          )}
+          {currentStage === 3 && (
+            <div
+              className="sec-cont__third-phase-chart"
+              style={{
+                transition: '1s ease all',
+                transform: `rotateY(${secondChartRotationY}deg) rotateX(${secondChartVerticalRotation}deg)`,
+              }}
+            >
+              <div className="third-phase-chart__horizontal-frame phase-frame">
+                <div className="third-phase-chart__first-deep-figure chart-deep-figure">
+                  <div className="chart-deep-figure__half-circle-figure">
+                  
+                  </div>
+                </div>
+                <div className="third-phase-chart__second-deep-figure chart-deep-figure">
+                  <div className="chart-deep-figure__half-circle-figure">
+                  
+                  </div>
+                </div>
+              </div>
+              <div className="third-phase-chart__vertical-frame phase-frame">
+                <div className="third-phase-chart__first-deep-figure chart-deep-figure">
+                  <div className="chart-deep-figure__half-circle-figure">
+                  
+                  </div>
+                </div>
+                <div className="third-phase-chart__second-deep-figure chart-deep-figure">
+                  <div className="chart-deep-figure__half-circle-figure">
+                  
+                  </div>
+                </div>
+                <div className="second-phase-chart__vertical-frame__circle-label circle-label-1"
+                     style={{bottom: `5%`, borderBottom: `2px black dashed`, width: `80%`}}
+                >
+                  <span>E</span><span style={{fontSize: '0.75rem'}}>11</span>
+                </div>
+                <div className="second-phase-chart__vertical-frame__circle-label circle-label-2"
+                     style={{bottom: `40%`, borderBottom: `2px black dashed`, width: `80%`}}
+                >
+                  <span>E</span><span style={{fontSize: '0.75rem'}}>21</span>
+                </div>
+              </div>
+              <div className="chart-deep-figure__full-circle-figure full-circle-figure-i-1">
+              
+              </div>
+              <div className="chart-deep-figure__full-circle-figure full-circle-figure-i-2">
+              
+              </div>
+            </div>
+          )}
         </div>
-        <div className="sec-cont__second-phase-chart">
-        
-        </div>
-        <div className="sec-cont__third-phase-chart">
-        
-        </div>
-      </div>
+      )}
       
       
       <div className="third-chart-container">
