@@ -21,92 +21,9 @@
       display: flex;
       justify-content: center;
       align-items: center;
-
-      .chart-left-wrapper {
-        position: relative;
-        width: 80%;
-        height: 80%;
-        display: grid;
-        grid-template: repeat(2, 1fr) / repeat(2, 1fr);
-        .axis-label {
-          position: absolute;
-        }
-        .axis-label__left {
-          top: 42.5%;
-          left: 0;
-        }
-        .axis-label__right {
-          top: 42.5%;
-          right: 0;
-        }
-        .axis-label__bottom {
-          left: 50%;
-          transform: translate(-50%);
-          top: 100%;
-        }
-        .axis-label__top {
-          left: 50%;
-          transform: translate(-50%);
-          bottom: 100%;
-        }
-        .axis-label__centre-left {
-          left: 47%;
-          transform: translate(-50%);
-          top: 42.5%;
-        }
-        .axis-label__centre-right {
-          transition: left 0.5s ease;
-          transform: translate(-50%);
-          top: 52.5%;
-        }
-        .curve-left {
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          svg {
-            transition: 1s ease all;
-          }
-        }
-
-        .chart-left__part {
-          &:nth-child(1) {
-            position: relative;
-            transition: 1s ease background;
-            &::before {
-              content: '';
-              position: absolute;
-              left: 100%;
-              top: 0;
-              height: 200%;
-              width: 3px;
-              background: black;
-            }
-          }
-          &:nth-child(2) {
-            transition: 1s ease background;
-          }
-          &[data-active-area="true"] {
-            background: $bg-green-300;
-          }
-          &:nth-child(3) {
-            position: relative;
-            transition: 2s ease background;
-            &::before {
-              content: '';
-              position: absolute;
-              bottom: 100%;
-              left: 0;
-              height: 3px;
-              width: 200%;
-              background: black;
-            }
-          }
-        }
+      #left-chart {
+        // ...
       }
-
     }
 
     .areas-page__chart-block__chart-right {
@@ -161,7 +78,7 @@
               right: 100%;
               top: 0;
               height: 200%;
-              width: 3px;
+              width: 2px;
               background: black;
             }
           }
@@ -176,7 +93,7 @@
               position: absolute;
               bottom: 100%;
               left: 0;
-              height: 3px;
+              height: 2px;
               width: 200%;
               background: black;
             }
