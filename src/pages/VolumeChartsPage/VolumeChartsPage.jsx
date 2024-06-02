@@ -211,11 +211,11 @@ function VolumeChartsPage(props) {
       
       ctx.stroke();
       
-      ctx.font = '16px Arial italic';
-      
-      for (let i = 1; i < 4; i++) {
-        ctx.fillText(`E${i}`, origin.x + (50 + 100 * (i - 1)) - 10, origin.y + 15);
-      }
+      // ctx.font = '16px Arial italic';
+      //
+      // for (let i = 1; i < 4; i++) {
+      //   ctx.fillText(`E${i}`, origin.x + (50 + 100 * (i - 1)) - 10, origin.y + 15);
+      // }
     }
     
     let animationFrameId;

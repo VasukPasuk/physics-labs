@@ -1,0 +1,16 @@
+.right-menu {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 48px;
+  right: 0;
+  width: 25vw;
+  background: #000;
+  height: calc(100vh - 48px);
+  &[data-menu-state="active"] {
+    transform: translateX(0%);
+  }
+  &[data-menu-state="disabled"] {
+    transform: translateX(100%);
+  }
+}
