@@ -1,41 +1,36 @@
 import {createBrowserRouter} from "react-router-dom";
-import {AreasPage, ChartPage, CarsAnalogyPage, DiodsPage, VolumeChartsPage, TPage} from '../pages/pages';
+import {
+  AreasPage,
+  ChartPage,
+  CarsAnalogyPage,
+  DiodsPage,
+  VolumeChartsPage,
+  SelectAnimation
+} from '../pages/pages';
+
 import Layout from "../Layout";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
+import DataRoutes from "../features/DataRoutes";
+
 
 const router = createBrowserRouter([
   {
     path: '/',
+    element: <SelectAnimation/>,
+    errorElement: <ErrorPage/>,
+  },
+  {
+    path: '',
     element: <Layout/>,
     errorElement: <ErrorPage/>,
-    children: [
-      {
-        path: '/cars',
-        element: <CarsAnalogyPage/>,
-      },
-      {
-        path: '/areas',
-        element: <AreasPage/>,
-      },
-      {
-        path: '/chart',
-        element: <ChartPage/>,
-      },
-      {
-        path: '/diods',
-        element: <DiodsPage/>
-      },
-      {
-        path: '/volume-charts',
-        element: <VolumeChartsPage/>
-      },
-      {
-        path: '/test',
-        element: <TPage/>
-      },
-    ]
+    children: [...DataRoutes].map(({element, route}) => ({
+      path: route,
+      element,
+      errorElement: <ErrorPage/>,
+    }))
   },
-  
 ])
+
+
 
 export default router;

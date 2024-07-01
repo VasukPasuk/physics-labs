@@ -10,8 +10,10 @@
 }
 
 .areas-page-section {
-  display: grid;
-  grid-template: auto 25% / 100%;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
 
   .areas-page__chart-block {
     display: grid;
@@ -112,17 +114,7 @@
     justify-content: center;
     align-items: center;
     gap: 0.75rem;
-    &::before {
-      position: absolute;
-      top: -20%;
-      left: 50%;
-      content: 'Панель керування анімацією';
-      transform: translateX(-50%);
-      padding: 0.5rem 1.25rem;
-      background: $bg-orange-300;
-      border-radius: 0.25rem;
-      animation: pulsating-panel-box 5s linear infinite;
-    }
+
     .switch-diode-type__btn-container {
       display: flex;
       flex-direction: column;
@@ -163,14 +155,3 @@
   }
 }
 
-@keyframes pulsating-panel-box {
-  0% {
-    box-shadow: 0 0 10px 1px orangered;
-  }
-  50% {
-    box-shadow: 0 0 15px 3px orangered;
-  }
-  100% {
-    box-shadow: 0 0 10px 1px orangered;
-  }
-}

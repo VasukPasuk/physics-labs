@@ -1,6 +1,6 @@
 import React from 'react';
 import './Header.style.scss';
-import {NavLink} from "react-router-dom";
+import {Link, NavLink, useLocation} from "react-router-dom";
 
 const links = [
   {
@@ -26,15 +26,24 @@ function Header(props) {
   const isActive = ({ isActive }) => {
     return isActive ? "active-link" : "";
   }
+  const {pathname} = useLocation()
   return (
     <header>
-      <nav>
-        {links.map(({path, text}) => {
-          return (
-            <NavLink className={isActive} to={'/' + path }> {text} </NavLink>
-          )
-        })}
-      </nav>
+      
+      <div className="logo-box">
+        <img id="logo" src="./logo-physics.png" alt="logo image" height={38} width={54}/>
+        <span className="logo-text">
+          Interactive physics
+        </span>
+        
+      </div>
+      <div>
+        {pathname !== '/' && (
+            <Link to={'/'}>
+              Повернутися назад
+            </Link>
+        )}
+      </div>
     </header>
   );
 }

@@ -3,18 +3,20 @@
 
 header {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  background: $nav-bar-bg;
-  nav {
+  //background: $nav-bar-bg;
+  height: 48px;
+  box-shadow: 0 0 15px 5px rgba(0,0,0,0.15);
+  padding: 0 2rem;
+  .logo-box {
     display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    a {
-      color: $bg-neutral-100;
-    }
-    .active-link {
-      color: $bg-gray-300;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    .logo-text {
+      font-size: 1.25rem;
+      font-weight: 700;
     }
   }
 }
