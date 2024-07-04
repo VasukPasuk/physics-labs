@@ -1,16 +1,22 @@
-import React, {useState} from 'react';
+import React, { useRef, useState } from 'react';
 import './style.scss';
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import DataRoutes from "../../features/DataRoutes";
-import {FaArrowRight} from "react-icons/fa";
+import { FaArrowRight } from "react-icons/fa";
 import Header from "../../components/Header/Header";
-import {IoSearchOutline} from "react-icons/io5";
+import { IoSearchOutline } from "react-icons/io5";
 
 function SelectAnimation(props) {
-	const [activeSearch, setActiveSearch] = useState(false)
+	let inputRef = useRef(null);
+	const [searchValue, setSearchValue] = useState('');
+	
+	const searchBtnHandler = () => {
+		setSearchValue(prev => inputRef.current.value);
+	}
+	
 	return (
 		<>
-			<Header/>
+			<Header />
 			<main>
 				<h2>
 					Інтерактивна фізика / Interactive physics
@@ -28,27 +34,33 @@ function SelectAnimation(props) {
 							id="search-input"
 							type="text"
 							placeholder="Назва симуляції"
+							ref={inputRef}
+							onChange={event => !event.currentTarget.value && setSearchValue(event.currentTarget.value)}
 						/>
-						<div className="icon-box">
-							<IoSearchOutline/>
+						<div
+							className="icon-box"
+							onClick={searchBtnHandler}
+						>
+							<IoSearchOutline  />
 						</div>
 					</div>
 				</div>
 				<div className="brick-links__container">
-					{DataRoutes.map(({route, linkText}) => (
+					{DataRoutes
+						.filter(({linkText}) => linkText.toLowerCase().includes(String(searchValue).toLowerCase()))
+						.map(({ route, linkText }) => (
 						<Link className="brick-link" to={route} key={route}>
-						<span className="brick-link__text">
-							{linkText}
-						</span>
+							<span className="brick-link__text">
+								{linkText}
+							</span>
 							<div className="brick-link__arrow">
-								<FaArrowRight/>
+								<FaArrowRight />
 							</div>
 						</Link>
 					))}
 				</div>
 			</main>
 		</>
-	
 	);
 }
 
