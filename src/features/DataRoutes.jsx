@@ -1,4 +1,5 @@
 import {AreasPage, CarsAnalogyPage, DiodsPage, VolumeChartsPage} from "../pages/pages";
+import {GraphiteCrystalPage} from "../pages/GraphiteCrystal/GraphiteCrystalPage";
 
 
 const DataRoutes = [
@@ -22,6 +23,11 @@ const DataRoutes = [
 		element: <VolumeChartsPage/>,
 		linkText: "Об'ємні графіки",
 	},
+	{
+		route: "/graphite-crystal",
+		element: <GraphiteCrystalPage/>,
+		linkText: "Графітний кристал",
+	}
 ]
 
 export default DataRoutes

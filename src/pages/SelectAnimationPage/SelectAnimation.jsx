@@ -2,9 +2,10 @@ import React, { useRef, useState } from 'react';
 import './style.scss';
 import { Link } from "react-router-dom";
 import DataRoutes from "../../features/DataRoutes";
-import { FaArrowRight } from "react-icons/fa";
+import {FaArrowRight, } from "react-icons/fa";
 import Header from "../../components/Header/Header";
-import { IoSearchOutline } from "react-icons/io5";
+import {IoSearchOutline} from "react-icons/io5";
+import {MdClose} from "react-icons/md";
 
 function SelectAnimation(props) {
 	let inputRef = useRef(null);
@@ -30,18 +31,29 @@ function SelectAnimation(props) {
 						Симуляції фізичних явищ
 					</span>
 					<div className="search-box">
-						<input
-							id="search-input"
-							type="text"
-							placeholder="Назва симуляції"
-							ref={inputRef}
-							onChange={event => !event.currentTarget.value && setSearchValue(event.currentTarget.value)}
-						/>
+						<div className="input-container">
+							<input
+								id="search-input"
+								type="text"
+								placeholder="Назва симуляції"
+								ref={inputRef}
+								onChange={event => !event.currentTarget.value && setSearchValue(event.currentTarget.value)}
+							>
+							</input>
+							{searchValue && (
+								<MdClose
+									onClick={() => setSearchValue(prev => {
+										inputRef.current.value = '';
+										return ''
+									})}
+									className="delete-query"
+								/>)}
+						</div>
 						<div
 							className="icon-box"
 							onClick={searchBtnHandler}
 						>
-							<IoSearchOutline  />
+							<IoSearchOutline/>
 						</div>
 					</div>
 				</div>
@@ -49,15 +61,15 @@ function SelectAnimation(props) {
 					{DataRoutes
 						.filter(({linkText}) => linkText.toLowerCase().includes(String(searchValue).toLowerCase()))
 						.map(({ route, linkText }) => (
-						<Link className="brick-link" to={route} key={route}>
+							<Link className="brick-link" to={route} key={route}>
 							<span className="brick-link__text">
 								{linkText}
 							</span>
-							<div className="brick-link__arrow">
-								<FaArrowRight />
-							</div>
-						</Link>
-					))}
+								<div className="brick-link__arrow">
+									<FaArrowRight />
+								</div>
+							</Link>
+						))}
 				</div>
 			</main>
 		</>
